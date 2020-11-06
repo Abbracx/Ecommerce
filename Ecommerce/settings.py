@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_countries',
+    'core.apps.CoreConfig',
 
     'allauth',
     'allauth.account',
@@ -140,7 +141,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'core.User'
 
 
 ACCOUNT_UNIQUE_EMAIL = True
@@ -149,11 +150,11 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 #ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 #LOGIN_REDIRECT_URL = '/'
-
+'''
 ACCOUNT_FORMS = {
 'signup': 'users.forms.CustomSignUpForm',
 }
-
+'''
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
