@@ -9,7 +9,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('slug',)
+    
 
 
 @admin.register(OrderItem)

@@ -38,7 +38,7 @@
 
 
 {% block body %}
-  <!-- Navbar -->
+<!-- Navbar -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
 
@@ -104,7 +104,6 @@
     </div>
   </nav>
   <!-- Navbar -->
-
   <!--Carousel Wrapper-->
   <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
 
@@ -334,7 +333,13 @@
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong>&#8358;{{item.price}}</strong>
+                  <strong>&#8358;
+                  {% if item.discount_price %}
+                  {{item.discount_price}}
+                  {% else %}
+                  {{item.price}}
+                  {% endif %}
+                  </strong>
                 </h4>
 
               </div>

@@ -9,13 +9,13 @@
 
 {% block body %}
 
-  <!-- Navbar -->
+ <!-- Navbar -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
 
       <!-- Brand -->
-      <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
-        <strong class="blue-text">MDB</strong>
+      <a class="navbar-brand waves-effect" href="/" target="_blank">
+        <strong class="blue-text">E-commerce</strong>
       </a>
 
       <!-- Collapse -->
@@ -34,16 +34,12 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
+        
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About MDB</a>
+            <a class="nav-link waves-effect" href="#">Product</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
-              target="_blank">Free download</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Free
-              tutorials</a>
+            <a class="nav-link waves-effect" href="{% url 'core:item-checkout' %}" >Checkout</a>
           </li>
         </ul>
 
@@ -57,19 +53,19 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
+            <a href="https://www.facebook.com/abbracx.rafael" class="nav-link waves-effect" target="_blank">
               <i class="fab fa-facebook-f"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect" target="_blank">
+            <a href="https://twitter.com/abbrac_x" class="nav-link waves-effect" target="_blank">
               <i class="fab fa-twitter"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="nav-link border border-light rounded waves-effect"
+            <a href="https://github.com/Abbracx" class="nav-link border border-light rounded waves-effect"
               target="_blank">
-              <i class="fab fa-github mr-2"></i>MDB GitHub
+              <i class="fab fa-github mr-2"></i>Abbracx GitHub
             </a>
           </li>
         </ul>
@@ -109,26 +105,34 @@
             </div>
 
             <p class="lead">
+            {% if object.discount_price %}
               <span class="mr-1">
-                <del>$200</del>
+                <del>&#8358;{{object.price}}</del>
               </span>
+              <span>&#8358;{{object.discount_price}}</span>
+            {% else %}
               <span>&#8358;{{object.price}}</span>
+            {% endif %}
             </p>
 
             <p class="lead font-weight-bold">Description</p>
 
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa
-              sint voluptatibus!
-              Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>
-
-            <form class="d-flex justify-content-left">
-              <!-- Default input -->
+            <p>{{object.description}}</p>
+          <!--
+          <form class="d-flex justify-content-left">
+             
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
               <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
 
-            </form>
+          </form>
+          -->
+          <a href="{{object.get_add_to_cart_url}}" class="btn btn-primary btn-md my-0 p">Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+          </a>
+          <a href="{{object.get_remove_from_cart_url}}" class="btn btn-danger btn-md my-0 p">Remove from cart</a>
+          </div>
 
           </div>
           <!--Content-->
