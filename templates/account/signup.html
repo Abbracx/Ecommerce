@@ -1,0 +1,57 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block body %}
+
+<div class="hide-on-med-and-down">
+
+        <section>
+            <div class="row">
+                <div class="col m12 l3 " id="signup-panel">
+                    <img src="{% static 'users/img/white-logo.png' %}" alt="" class="responsive-img">
+                </div>
+                <div class="col m12 l9" id="signup-body">
+                    <section class="center" style="padding-top: 30px;"> 
+                        <a href="index.html"><img src="{% static 'users/img/home.png' %}" alt="" class="responsive-img right home-btn" style="background-color: #600060; width: 40px; border-radius: 50%;"></a>
+                        <img src="{% static 'users/img/mobile/mobile.png' %}" alt="" class="responsive-img">
+                    </section>
+
+                    <section>
+                        <div class="container" >
+                            <h1 class="right" id="gradiant-text">{% trans "Sign Up" %}</h1>
+                            <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+                            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                              {% csrf_token %}
+                              {% for field in form %}
+                                <div class="fieldWrapper">
+                                    {{ field.errors }}
+                                    
+                                    <input type="text" id="signup-input" name="{{field.html_name}}" value="" placeholder=" {{field.field.label}}" required>
+                                    
+                                    {% if field.help_text %}
+                                    <p class="help">{{ field.help_text|safe }}</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}<br>
+                              {% if redirect_field_value %}
+                              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                              {% endif %}
+                              <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+                            </form>
+                           
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+           
+        </section>
+
+    </div>
+
+
+{% endblock %}

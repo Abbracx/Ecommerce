@@ -1,5 +1,9 @@
 import os
 import django_heroku
+import logging
+
+#logging level configuration. default is logging.WARNING
+logging.basicConfig(level=logging.DEBUG)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -10,12 +14,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-#SECRET_KEY = '-6$zbf*i+4a&d^%bsp1n9px5u=-_$g=e9_!44++(kbn!%c2j4s'
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'True'
-#DEBUG = True
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -40,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_countries',
     'core.apps.CoreConfig',
 
     'allauth',
@@ -148,8 +149,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
-#ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
-#LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 '''
 ACCOUNT_FORMS = {
 'signup': 'users.forms.CustomSignUpForm',

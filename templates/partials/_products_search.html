@@ -1,0 +1,15 @@
+{% for product in product_list.all %}
+    
+    <div class="sug">
+        <a href="{% url 'users:single-slug' product.prod_slug %}"> 
+            <span>Product: {{product.prod_name}}</span><br>
+            <span>Store: {{product.shelve.store.store_name}}</span><br>
+            <span>Location: nil</span>
+        </a>
+    </div>
+    
+{% empty %}
+    <div class="sug"> 
+        <span>Nothing found</span>
+    </div>
+{% endfor %}

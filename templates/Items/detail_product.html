@@ -1,0 +1,104 @@
+
+
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block body %}
+ 
+
+    <div class="hide-on-med-and-down">
+
+        <section id="large-header">
+            <div class="row" style="padding-top: 20px;">
+
+
+                <div class="col s1 m1 center" style="margin: 0; padding: 0;">
+                    <a href="signup.html"><img src="{% static 'users/img/mobile/menu logo.png' %}" alt="" class="responsive-img home-btn"
+                            style="height:50px; padding-top: 8px;"></a>
+                </div>
+                <div class="col s6 m6 ">
+                    <input type="text" id="large-input-search" placeholder="buysellcle search wheel">
+
+                </div>
+                <div class="col s1 m1 " style="margin-left: -20px; margin-top: 14px;">
+                    <img src="{% static 'users/img/search.png' %}" alt="" class="responsive-img home-btn" style="height: 34px;">
+                </div>
+                <div class="col s1 m1" style="margin: 0; padding: 0;">
+                    <a href="signup.html"><img src="{% static 'users/img/mobile/sell.png' %}" alt="" class="responsive-img home-btn"
+                            style="height:50px; padding-top: 8px;"></a>
+                </div>
+                <div class="col s1 m1" style="margin: 0; padding: 0;">
+                    <a href="signup.html"><img src="{% static 'users/img/wheel.png' %}" alt="" class="responsive-img home-btn"
+                            style="height:50px; padding-top: 8px;"></a>
+                </div>
+                <div class="col s1 m1 " style="margin: 0; padding: 0;">
+                    <a href="signup.html"><img src="{% static 'users/img/mobile/menu logo.png' %}" alt="" class="responsive-img home-btn"
+                            style="height:50px; padding-top: 8px;"></a>
+                </div>
+                <div class="col s1 m1 " style="margin: 0; padding: 0;">
+                    <a href="index.html"><img src="{% static 'users/img/home.png' %}" alt="" class="responsive-img home-btn"
+                            style="height:50px; padding-top: 8px;"></a>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="mobile-body" style=" font-family: TrajanPro-Bold; ">
+            <div class="row card z-depth-0 transparent" style="height: 50px; padding-top: 5px;">
+                <div class="col s1 m1 ">
+                    <img src="{{product.shelve.store.image.url}}" alt="" class="responsive-img" style="height: 50px; width: 70px;">
+                </div>
+                <div class="col s7 m7" style="padding: 10px;">
+                    <a href="store_details.html">
+                        <h3 id="mobile-h1" style="padding-bottom: -10px;">{{product.shelve.store}}</h3>
+                    </a>
+                    <h6
+                        style="margin-top: 0px; font-size: x-small; width: 160px; border: solid 1px #eee; padding: 2px;">
+                        {{product.shelve.store.endorsers.count}} endorsements</h6>
+                </div>
+                <div class="col s4 m4">
+                </div>
+
+            </div>
+
+{{photos.count}}
+            <div class="row">
+                {% for image in photos %}
+                    <div class="col l12 carousel bigCarousel ">
+                
+                        <div class="carousel-item ">
+                            <img src="{{image.image.url}}" alt="" class="responsiv-img"
+                                            style="width: 100%; height: 100%;">          
+
+                            <h6 style="margin-top: 0px; font-size: small; text-align: center;">{{product.prod_name}}</h6>
+                            <h6 style="margin-top: 0px; font-size: x-small; text-align: center; color: #999;">N{{product.prod_price}}</h6>
+                        </div>
+                    
+                    </div>
+                {%endfor%}
+
+                <a href="{% url 'products:update_product' product.prod_slug%}" class="btn purple">Update</a>
+				<a href="{% url 'products:delete_product' product.prod_slug%}" class="btn red">Delete</a>
+            </div>
+
+        </section>
+
+        <section id="footer" class="row" style="padding-left: 30px; padding-right: 30px;">
+            <div class="col s1 m1 l1 left">
+                <img src="{% static 'users/img/biz rader.png' %}" alt="" class="responsive-img home-btn" style="padding-top: 20px;">
+            </div>
+            <div class="col s10 m10 l10 center" style="padding-top: 10px;">
+                <a href="#" style="text-decoration: none; color: black;">
+                    <p>about buysellcle.com</p>
+                </a>
+            </div>
+            <div class="col s1 m1 l1 right">
+                <img src="{% static 'users/img/settings.png' %}" alt="" class="responsive-img home-btn"
+                    style="padding-top: 16px; width: 50px;">
+            </div>
+
+        </section>
+
+    </div>
+
+{% endblock %}

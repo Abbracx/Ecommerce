@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+<!--
+    <h2><a href="{% url 'site-home' %}">Home</a> </h2>
+    <a href="{% url 'products:list_product'%}" class="btn">Product List</a>
+    <button id="modalBtn" class="button">create a shelve</button>
+
+
+            <div class="row">
+                <img src="{{ user.profile.image.url }}" alt="" class="">
+                <div class="col s6">
+                    <h4 class="">{{user.username}}</h4>
+                    <p class="">{{user.email}}</p>
+                    <form action="{% url 'products:create_product' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                            <legend class="border-bottom mb-4"> Add Products </legend><br>
+
+                            <label >Select Category:</label>
+                            <select  id="category" name="category">
+                                {%for cat in categories%}
+                                <option value="{{cat.id}}">{{cat}}</option>
+                                {%endfor%}
+                            </select>
+
+                            <br>
+
+                            <label >add to shelve:</label>
+                            <select  name="shelves">
+
+                                {%for shelve in shelves%}
+                                <option value="{{shelve.id}}">{{shelve}}</option>
+                                {%endfor%}
+
+                            </select>
+
+                            <br>
+
+                            {{prod_form.as_p}}<br>
+        					{{formset.as_p}}
+
+
+                        <div class="form-group">
+                            <button class="btn " type="submit">Add</button>
+                        </div>
+
+                    </form>
+
+
+                </div>
+                 <form action="{% url 'products:add_shelve_to_store' %}" method="post" enctype="multipart/form-data">
+                 {% csrf_token %}
+                    <div id="simpleModal" class="modal">
+                        <div class="modal-content">
+                            <span class="closeBtn">&times;</span>
+                            <label for="shelve_id">Shelve:</label>
+                            <input type="text" id="shelve_id" name="shelve" placeholder='enter shelve name'>
+
+                            <input type="submit" id="submitBtn" name="submitBtn" value="submit">
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+        <div id="cats">
+        </div>
+
+    -->
+
+    <div>
+        <div class="row">
+            <div class="col s12 m12 l8">
+
+            </div>
+            <div class="col s12 m12 l4 center">
+                <a href="index.html"><img src="{% static 'users/img/USER_HOME.png' %}" alt="" class="responsive-img  home-btn" style="width: 200px; padding: 20px;"></a>
+            </div>
+
+        </div>
+
+        <section id="user-body">
+            <div class="row">
+                <div class="col s12 m12 l8 ">
+                    <div class="row" id="user-panel">
+                        <div class="col s6 m6 l4">
+                            <button id="user-btn-long" class="home-btn">
+                                <i class="material-icons" >picture_in_picture</i> ADD A SHELVE
+                            </button>
+                        </div>
+                        <div class="col s6 m6 l8" id="user-desc-text">
+                            <p >Create a shelve that will serve more like a folder with a title that will help your items to be kept orderly</p>
+                        </div>
+
+                    </div>
+                    <div class="row" id="user-panel">
+                        <div class="col s6 m6 l4">
+                            <button id="user-btn-long" class="home-btn">
+                                <i class="material-icons" >description</i> DESCRIPTION
+                            </button>
+                        </div>
+                        <div class="col s6 m6 l8" id="user-desc-text">
+                            <p >Write about what your business does, the services you provide, or the purpose of the shelve. in 200 words or less</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row" id="user-panel">
+                        <div class="col s6 m6 l4">
+                            <button id="user-btn-short" class="home-btn">
+                                <i class="material-icons" >person</i> PRODUCT NAME
+                            </button>
+                        </div>
+                        <div class="col s6 m6 l8" id="user-desc-text">
+                            <p >Add your product name to help your customer identify it quickly</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row" id="user-panel">
+                        <div class="col s6 m6 l4">
+                            <button id="user-btn-short" class="home-btn">
+                                <i class="material-icons" >class</i> SELECT CATEGORY
+                            </button>
+                        </div>
+                        <div class="col s6 m6 l8" id="user-desc-text">
+                            <p >Add your product name to help your customer identify it quickly</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row center" id="user-panel" style="height: 180px;">
+                        <div class="col s4 m4 l4">
+                            <button id="user-btn-shorter" class="home-btn">
+                                <i class="material-icons " >shopping_cart</i> PRODUCT QTY
+                            </button>
+                            <input type="text" class="center">
+                        </div>
+                        <div class="col s4 m4 l4">
+                            <button id="user-btn-shorter" class="home-btn">
+                                <i class="material-icons " >attach_money</i> PRODUCT PRICE
+                            </button>
+                            <input type="text" class="center">
+                        </div>
+                        <div class="col s4 m4 l4">
+                            <button id="user-btn-shorter" class="home-btn">
+                                <i class="material-icons" >place</i> PRODUCT LOCATION
+                            </button>
+                            <input type="text" class="center">
+                        </div>
+
+
+                    </div>
+
+                    <div class="row center" id="user-panel">
+                        <div class="col s6 m6 l3">
+                            <button id="user-btn-short" class="home-btn">
+                                <i class="material-icons" >image</i> ADD IMAGE
+                            </button>
+                        </div>
+                        <div class="col s2 m2 l3" style="padding-top: 20px;">
+                            <button class="btn-floating btn-large purple darken-2">
+                                <a href="#"><i class="material-icons" >add</i> </a>
+                            </button>
+                        </div>
+                        <div class="col s2 m2 l3" style="padding-top: 20px;">
+                            <button class="btn-floating btn-large purple darken-2">
+                                <a href="#"><i class="material-icons" >add</i> </a>
+                            </button>
+                        </div>
+                        <div class="col s2 m2 l3" style="padding-top: 20px;">
+                            <button class="btn-floating btn-large purple darken-2">
+                                <a href="#"><i class="material-icons" >add</i> </a>
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="col s12 m12 l4 ">
+                    <center>
+                    <div class="center" >
+                        <img src="{% static 'users/img/slides/1.jpg' %}" alt="" class="responsive-img"  style="width: 200px; height: 200px; border-radius: 50%; border: double;">
+                    <h4 style="font-size: 30px; font-family: sans-serif; color: #900090; font:bolder;">Hassan Stores</h4>
+                    <h4 style="font-size: 12px; font-family: sans-serif; color: #707070; margin-top: -10px;">HassanStores@gmail.com</h4>
+                   <a href=""> <img src="{% static 'users/img/SAVE ICON.png' %}" alt="" class="responsive-img home-btn" style="width: 100px;"></a>
+                </div>
+
+                </center>
+
+                </div>
+            </div>
+
+            <form action="{% url 'products:add_shelve_to_store' %}" method="post" enctype="multipart/form-data">
+                 {% csrf_token %}
+                    <div id="simpleModal" class="modal">
+                        <div class="modal-content">
+                            <span class="closeBtn">&times;</span>
+                            <label for="shelve_id">Shelve:</label>
+                            <input type="text" id="shelve_id" name="shelve" placeholder='enter shelve name'>
+
+                            <input type="submit" id="submitBtn" name="submitBtn" value="submit">
+                        </div>
+                    </div>
+                </form>
+                
+          <section id="footer" class="row hide-on-med-and-down" style="padding-left: 30px; padding-right: 30px;">
+            <div class="col s1 m1 l1 left">
+                <img src="{% static 'users/img/biz rader.png' %}" alt="" class="responsive-img home-btn" style="padding-top: 30px;">
+            </div>
+            <div class="col s10 m10 l10 center" style="padding-top: 20px;">
+               <a href="#" style="text-decoration: none; color: black;"> <p>about buysellcle.com</p></a>
+            </div>
+            <div class="col s1 m1 l1 right">
+                <img src="{% static 'users/img/settings.png' %}" alt="" class="responsive-img home-btn" style="padding-top: 24px; width: 50px;">
+            </div>
+
+            </section>
+        </section>
+
+
+
+    </div>
+    <div class="hide-on-large-only">
+
+        <section class=" center" >
+            <div class="row " style="margin-bottom:-20px;">
+                <div class="col s2 m2 center"></div>
+                <div class="col s2 m2 center"></div>
+                <div class="col s2 m2 center"></div>
+                <div class="col s2 m2 center"></div>
+                <div class="col s2 m2 center"></div>
+                <div class="col s2 m2 center"></div>
+         </div>
+            <div class="row" style="margin-top:-10px;">
+                <div class="col s2 m2 center"><h6 id="notification"> <br> </h6><img src="{% static 'users/img/biz rader.png' %}" alt="" class="responsive-img home-btn" style="padding-top: 5px;"></div>
+                <div class="col s2 m2 center"><h6 id="notification"> <br> </h6><img src="{% static 'users/img/video and audio.png' %}" alt="" class="responsive-img home-btn" style="height: 34px; padding-top: 5px;"></div>
+                <div class="col s2 m2 center"><h6 id="notification"> 2M </h6><img src="{% static 'users/img/people endorsed.png' %}" alt="" class="responsive-img home-btn" style="height: 34px; padding-top: 5px;"></div>
+                <div class="col s2 m2 center"><h6 id="notification"> 100 </h6><img src="{% static 'users/img/chat icon.png' %}" alt="" class="responsive-img home-btn" style="height: 28px; padding-top: 5px;"></div>
+                <div class="col s2 m2 center"><h6 id="notification"> 16 </h6><img src="{% static 'users/img/wheel.png' %}" alt="" class="responsive-img home-btn" style="height: 34px; padding-top: 5px;"></div>
+                <div class="col s2 m2 center"><h6 id="notification"> <br> </h6><img src="{% static 'users/img/settings.png' %}" alt="" class="responsive-img home-btn" style="height: 34px; padding-top: 5px;"></div>
+            </div>
+        </section>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+
+            $('#category').on('change', function(e){
+                let query = $('#category option:selected ').text();
+                $.get("{% url 'products:endorse_shop' %}", $(this).serialize(), function(data){
+                    response = JSON.parse(data)
+                //console.log($(this).serialize());
+                console.log(response);
+            });
+            e.preventDefault();
+        });
+
+
+        let v = document.querySelector('#cats').value()
+        console.log('data is '+ v);
+{% static '
+    </script>
+{% endblock js %}

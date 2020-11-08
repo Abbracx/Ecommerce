@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+
+{% block body %}
+	{% for item in items %}
+		{{item}}
+	{% empty %}
+		<h3>No item yet</h3>
+	{% endfor %}
+    
+{% endblock %}
+
+					
