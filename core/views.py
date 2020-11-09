@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Item, Order, OrderItem
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
+from django.contrib import messages
 # Create your views here.
 
 
@@ -31,12 +32,20 @@ def add_to_cart(request, slug):
         if order.items.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
+            messages.info(request, f'These product has been updated.')
+            return redirect('core:item-detail', slug=item.slug)
+
         else:
             order.items.add(order_item)
+            messages.info(request, f'These product has been added to your cart.')
+            return redirect('core:item-detail', slug=item.slug)
+
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user, order_date=ordered_date)
         order.items.add(order_item)
+        messages.info(request, f'These product has been added to your cart.')
+
     return redirect('core:item-detail', slug=item.slug)
 
 def remove_from_cart(request, slug):
@@ -51,16 +60,16 @@ def remove_from_cart(request, slug):
             user=request.user,
             ordered=False
             )[0]
-            order_item.quantity -= 1
-            order_item.save()
+            #order_item.quantity -= 1
+            #order_item.save()
             order.items.remove(order_item)
-        else:
-            # item does not exist
+            messages.info(request, f'These product has been removed from your cart.')
             return redirect('core:item-detail', slug=item.slug)
-    else:
-        #order does not exist
-        return redirect('core:item-detail', slug=item.slug)
-    # item successfully removed
+        else:
+            messages.info(request, f'These product does not exist in your cart.')
+            return redirect('core:item-detail', slug=item.slug)
+
+    messages.info(request, f'sorry you dont have and order.')
     return redirect('core:item-detail', slug=item.slug)
 
 
