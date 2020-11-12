@@ -4,11 +4,12 @@
 {% load account socialaccount %}
 {% load static %}
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block body %}
   <main>
-    <div class="container">
-      <section class="text-center mb-4">
+    <div class="container wrapper">
+      <section class="mb-4">
         <div class="row wow fadeIn">
             <div class="col-6 offset-3">
             {% get_providers as socialaccount_providers %}
@@ -36,7 +37,7 @@
 
               <form class="login" method="POST" action="{% url 'account_login' %}">
                 {% csrf_token %}
-                   {{form.as_p}}
+                   {{form|crispy}}
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
