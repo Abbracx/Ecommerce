@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Item, Order, OrderItem
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -13,12 +16,26 @@ class HomeView(ListView):
     template_name = 'home-page.html'
 
 
+
+class OrderSummaryView(LoginRequiredMixin, View):
+
+    def get(self, *args, **kwargs):
+        try:
+            qs = Order.objects.get(user=self.request.user, ordered=False)
+            context = {'object': qs}
+            return render(self.request, 'order_summary.html', context)
+        except  ObjectDoesNotExist:
+            messages.error(self.request, f'You do not have any order')
+            return redirect('/')
+        
+    
+
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'product-page.html'
 
 
-
+@login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_item = OrderItem.objects.get_or_create(
@@ -47,8 +64,10 @@ def add_to_cart(request, slug):
         order.items.add(order_item)
         messages.info(request, f'These product has been added to your cart.')
 
-    return redirect('core:item-detail', slug=item.slug)
+    return redirect('core:item-detail', slug=item.slug) 
 
+
+@login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
