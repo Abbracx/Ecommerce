@@ -79,6 +79,13 @@ class OrderItem(models.Model):
     def get_total_quantity_price(self):
         return f'{self.quantity * self.item.price}'
 
+    def get_total_quantity_item_discount_price(self):
+        return f'{self.quantity * self.item.discount_price}'
+
+    def get_amount_saved(self):
+        return float(self.get_total_quantity_price()) - float(self.get_total_quantity_item_discount_price())
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
