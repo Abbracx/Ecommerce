@@ -85,6 +85,10 @@ class OrderItem(models.Model):
     def get_amount_saved(self):
         return float(self.get_total_quantity_price()) - float(self.get_total_quantity_item_discount_price())
 
+    def get_final_price(self):
+        if self.item.discount_price:
+            return float(self.get_total_quantity_item_discount_price())
+        return float(self.get_total_quantity_price())
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -96,3 +100,10 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.user.username} orders'
+
+    def get_total(self):
+        total = 0.0
+        for order_item in self.items.all():
+            final_price = order_item.get_final_price()
+            total += final_price
+        return total

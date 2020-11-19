@@ -32,7 +32,15 @@
       .carousel {
         height: 100vh;
       }
+
     }
+
+    @media screen and (max-width: 600px){
+      .btn{    
+          width: 100%;   
+            }
+        }
+    
 </style>
   {% endblock %}
 
@@ -72,6 +80,17 @@
                     </td>
                 </tr>
             {% endfor %}
+                <tr>
+                    <td colspan="4"><b>Order-Total</b></td>
+                    <td><b>&#8358;{{object.get_total}}</b></td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                    <a href="#" class="btn btn-success float-right ml-2 mb-3">PROCEED TO CHECKOUT</a>
+                    <a href="#" class="btn btn-info float-right">CONTINUE SHOPPING</a>
+                   
+                  </td>
+                </tr>
                 </tbody>
             </table>
         </div>
