@@ -79,7 +79,17 @@
                       {% endif %}
                     </td>
                 </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5" class="center"><b>Cart is empty.</b></td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                    <a href="#" class="btn btn-info float-right">CONTINUE SHOPPING</a>  
+                  </td>
+                </tr>
             {% endfor %}
+            {% if object.get_total %}
                 <tr>
                     <td colspan="4"><b>Order-Total</b></td>
                     <td><b>&#8358;{{object.get_total}}</b></td>
@@ -91,6 +101,7 @@
                    
                   </td>
                 </tr>
+              {% endif %}
                 </tbody>
             </table>
         </div>
