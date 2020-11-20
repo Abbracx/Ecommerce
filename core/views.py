@@ -51,12 +51,12 @@ def add_to_cart(request, slug):
             order_item.quantity += 1
             order_item.save()
             messages.info(request, f'These product has been updated.')
-            return redirect('core:item-detail', slug=item.slug)
+            return redirect('core:order-summary')
 
         else:
             order.items.add(order_item)
             messages.info(request, f'These product has been added to your cart.')
-            return redirect('core:item-detail', slug=item.slug)
+            return redirect('core:order-summary')
 
     else:
         ordered_date = timezone.now()
@@ -64,7 +64,7 @@ def add_to_cart(request, slug):
         order.items.add(order_item)
         messages.info(request, f'These product has been added to your cart.')
 
-    return redirect('core:item-detail', slug=item.slug) 
+    return redirect('core:order-summary') 
 
 
 @login_required
@@ -84,7 +84,38 @@ def remove_from_cart(request, slug):
             #order_item.save()
             order.items.remove(order_item)
             messages.info(request, f'These product has been removed from your cart.')
+            return redirect('core:order-summary')
+        else:
+            messages.info(request, f'These product does not exist in your cart.')
             return redirect('core:item-detail', slug=item.slug)
+
+    messages.info(request, f'sorry you dont have and order.')
+    return redirect('core:item-detail', slug=item.slug)
+
+
+@login_required
+def remove_single_item_from_cart(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item = OrderItem.objects.filter(
+            item=item,
+            user=request.user,
+            ordered=False
+            )[0]
+            
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+                messages.info(request, f'These product was updated down.')
+                return redirect('core:order-summary')
+            else:
+                order.items.remove(order_item)
+                messages.info(request, f'These product was removed')
+                return redirect('core:order-summary')
         else:
             messages.info(request, f'These product does not exist in your cart.')
             return redirect('core:item-detail', slug=item.slug)
@@ -94,5 +125,11 @@ def remove_from_cart(request, slug):
 
 
 
-def checkout(request):
-    pass
+class CheckOutView(LoginRequiredMixin, View):
+
+    def get(self, *args, **kwargs):
+    
+        return render(self.request, 'checkout-page.html')
+    
+        
+    
