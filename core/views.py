@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Item, Order, OrderItem
+from .models import Item, Order, OrderItem, BillingAddress
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CheckoutForm
 # Create your views here.
 
 
@@ -27,8 +28,8 @@ class OrderSummaryView(LoginRequiredMixin, View):
         except  ObjectDoesNotExist:
             messages.error(self.request, f'You do not have any order')
             return redirect('/')
-        
-    
+
+
 
 class ItemDetailView(DetailView):
     model = Item
@@ -64,7 +65,7 @@ def add_to_cart(request, slug):
         order.items.add(order_item)
         messages.info(request, f'These product has been added to your cart.')
 
-    return redirect('core:order-summary') 
+    return redirect('core:order-summary')
 
 
 @login_required
@@ -106,7 +107,7 @@ def remove_single_item_from_cart(request, slug):
             user=request.user,
             ordered=False
             )[0]
-            
+
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
@@ -128,8 +129,47 @@ def remove_single_item_from_cart(request, slug):
 class CheckOutView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
-    
-        return render(self.request, 'checkout-page.html')
-    
-        
-    
+        #form
+        form = CheckoutForm()
+        context = {
+            'form': form
+        }
+        return render(self.request, 'checkout-page.html', context)
+
+    def post(self, *args, **kwargs):
+
+        form = CheckoutForm(self.request.POST or None)
+
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                street_address = form.cleaned_data.get('street_address' )
+                appartment_address = form.cleaned_data.get('appartment_address' )
+                country = form.cleaned_data.get('country')
+                zip= form.cleaned_data.get('zip')
+                payment_option = form.cleaned_data.get('payment_option')
+                # TODO: add functionality for shipping address
+                billing_address = BillingAddress(
+                    user = request.user,
+                    street_address = street_address,
+                    appartment_address = appartment_address,
+                    country = country,
+                    zip = zip
+                    )
+                billing_address.save()
+                order.billing_address = billing_address
+                order.save()
+
+            # TODO: redirect to the payment option type
+            messages.success(self.request, f'submited successfuly')
+            return redirect('core:item-checkout')
+        except  ObjectDoesNotExist:
+            messages.error(self.request, f'You do not have any order. Shop now!')
+            return redirect('core:order-summary')
+
+        messages.warning(self.request, f'form failed')
+        return redirect('core:item-checkout')
+
+
+
+

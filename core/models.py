@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.shortcuts import reverse
 from django.utils.text import slugify
 import random, string, uuid
+from django_countries.fields import CountryField
+
 # Create your models here.
 
 
@@ -54,7 +56,7 @@ class Item(models.Model):
             slug = new_slug
         else:
             slug = slugify(self.title)
-        
+
         Klass = self.__class__
         qs_exists = Klass.objects.filter(slug=slug).exists()
         if qs_exists:
@@ -96,7 +98,7 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
-
+    billing_address = models.ForeignKey('BillingAddress', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} orders'
@@ -107,3 +109,16 @@ class Order(models.Model):
             final_price = order_item.get_final_price()
             total += final_price
         return total
+
+class BillingAddress(models.Model):
+    user =  models.ForeignKey(User, on_delete=models.CASCADE)
+    street_address = models.CharField(max_length=100)
+    appartment_address = models.CharField(max_length=100)
+    country = CountryField(multiple=False)
+    zip = models.CharField(max_length=100)
+    # same_billing_address
+    # save_info
+    # payment_option
+
+    def __str__(self):
+        return f'{self.user.username} billings.'
