@@ -150,7 +150,7 @@ class CheckOutView(LoginRequiredMixin, View):
                 payment_option = form.cleaned_data.get('payment_option')
                 # TODO: add functionality for shipping address
                 billing_address = BillingAddress(
-                    user = request.user,
+                    user = self.request.user,
                     street_address = street_address,
                     appartment_address = appartment_address,
                     country = country,
@@ -172,5 +172,5 @@ class CheckOutView(LoginRequiredMixin, View):
 
 class PaymentView(View):
 
-    def get(request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         return render(self.request, 'payment.html')
