@@ -21,7 +21,7 @@
       margin-top: 5%;
     }
   </style>
-  
+
 
     <title>{% block head_title %}{% endblock %}</title>
     <style type="text/css">{% block style %}{% endblock%}</style>
@@ -35,7 +35,7 @@
     {% include "messages.html" %}
     {% block body %}{% endblock %}
     {% block extra_body %}{% endblock %}
-      
+
      <!-- SCRIPTS -->
   <!-- JQuery -->
     <script type="text/javascript" src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
@@ -45,16 +45,21 @@
   <script type="text/javascript" src="{% static 'core/js/bootstrap.min' %}.js"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="{% static 'core/js/mdb.min.js' %}"></script>
+  <!-- stripe core-->
+  <script src="https://js.stripe.com/v3/"></script>
   <!-- Initializations -->
   <script type="text/javascript">
     // Animations initialization
     new WOW().init();
 
   </script>
-    
-        {% block js %}
-        {% endblock js %} 
-    
+
+
+      {% block js %}
+      {% endblock js %}
+
+
+
     </body>
 </html>
 

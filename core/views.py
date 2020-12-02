@@ -170,6 +170,7 @@ class CheckOutView(LoginRequiredMixin, View):
         messages.warning(self.request, f'form failed')
         return redirect('core:item-checkout')
 
+class PaymentView(View):
 
-
-
+    def get(request, *args, **kwargs):
+        return render(self.request, 'payment.html')
