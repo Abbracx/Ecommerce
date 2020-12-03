@@ -43,10 +43,10 @@
   margin-top: 28px;
 }
 
-button:hover {
+#stripeBtn:hover {
   transform: translateY(-1px);
   box-shadow: 0 7px 14px rgba(50, 50, 93, .10), 0 3px 6px rgba(0, 0, 0, .08);
-  background-color: #43458b;
+  background-color: green;
 }
 
 #stripe-form {
@@ -115,42 +115,30 @@ label {
           <!-- Heading -->
           <h4 class="d-flex justify-content-between align-items-center mb-3">
 <!--             <span class="text-muted">Your cart</span>
- -->            <span class="badge badge-secondary badge-pill">3</span>
+ -->            <span class="badge badge-secondary badge-pill">{{order.items.count}}</span>
           </h4>
 
           <!-- Cart -->
           <ul class="list-group mb-3 z-depth-1">
+            {% for order_item in order.items.all %}
             <li class="list-group-item d-flex justify-content-between lh-condensed">
               <div>
-                <h6 class="my-0">Product name</h6>
-                <small class="text-muted">Brief description</small>
+                <h6 class="my-0">{{order_item.item.title}}</h6>
+                <small class="text-muted">{{order_item.item.description}}</small>
               </div>
-              <span class="text-muted">$12</span>
+              <span class="text-muted">&#8358;{{order_item.get_final_price}}</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Second product</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <span class="text-muted">$8</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Third item</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <span class="text-muted">$5</span>
-            </li>
+            {% endfor %}
             <li class="list-group-item d-flex justify-content-between bg-light">
               <div class="text-success">
                 <h6 class="my-0">Promo code</h6>
                 <small>EXAMPLECODE</small>
               </div>
-              <span class="text-success">-$5</span>
+              <span class="text-success">-&#8358;5</span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
-              <span>Total (USD)</span>
-              <strong>$20</strong>
+              <span>Total (NAIRA)</span>
+              <strong>&#8358;{{order.get_total}}</strong>
             </li>
           </ul>
         </div>
@@ -163,7 +151,8 @@ label {
               <hr class="mb-4">
               <button class="btn btn-primary btn-lg btn-block" type="submit">Make Payment</button>
             </form> -->
-            <form action="." method="post" class="card-body" id="stripe-form">
+            <form action="{% url 'core:payment' order.billing_address.get_payment_option_display %}" method="post" class="card-body" id="stripe-form">
+                {% csrf_token %}
               <div class="stripe-form-row">
                 <label for="card-element" id="stripeBtnLabel">
                   Credit or debit card
@@ -174,7 +163,7 @@ label {
                 <div id="card-errors" role="alert"></div>
               </div>
 
-              <button id="stripeBtn" class="mt-2 mb-2">Submit Payment</button>
+              <button id="stripeBtn" class="my-2 mt-2">Submit Payment</button>
             </form>
           </div>
         </div>

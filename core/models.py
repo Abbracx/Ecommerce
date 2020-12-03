@@ -21,6 +21,13 @@ LABEL_CHOICES = (
 )
 
 
+PAYMENT_CHOICES = (
+    ('S','Stripe'),
+    ('P', 'PayPal'),
+    ('PS', 'PayStack'),
+    )
+
+
 def _random_string_generator( size=10, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -99,6 +106,7 @@ class Order(models.Model):
     order_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
     billing_address = models.ForeignKey('BillingAddress', on_delete=models.SET_NULL, blank=True, null=True)
+    payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} orders'
@@ -118,7 +126,16 @@ class BillingAddress(models.Model):
     zip = models.CharField(max_length=100)
     # same_billing_address
     # save_info
-    # payment_option
+    payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
 
     def __str__(self):
         return f'{self.user.username} billings.'
+
+class Payment(models.Model):
+    stripe_charge_id = models.CharField(max_length=30)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    payment_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

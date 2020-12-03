@@ -6,6 +6,7 @@ from django_countries.widgets import CountrySelectWidget
 PAYMENT_CHOICES = (
     ('S','Stripe'),
     ('P', 'PayPal'),
+    ('PS', 'PayStack'),
     )
 class CheckoutForm(forms.Form):
     street_address = forms.CharField(widget=forms.TextInput(attrs={
