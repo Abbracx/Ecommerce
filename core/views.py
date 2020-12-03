@@ -175,10 +175,10 @@ class CheckOutView(LoginRequiredMixin, View):
                 return redirect('core:payment', payment_option=order.billing_address.get_payment_option_display())
             elif payment_option == "P":
                 messages.success(self.request, f'details saved successfuly')
-                return redirect('core:payment', payment_option="paypal")
+                return redirect('core:payment', payment_option=order.billing_address.get_payment_option_display())
             elif payment_option == "PS":
                 messages.success(self.request, f'details saved successfuly')
-                return redirect('core:payment', payment_option="paystack")
+                return redirect('core:payment', payment_option=order.billing_address.get_payment_option_display())
             else:
                 messages.success(self.request, f'Invalid options selected')
                 return redirect('core:item-checkout')
